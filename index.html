@@ -1,20 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Axislotl</title>
-    <link rel="stylesheet" href="static/styles.css">
+  <meta charset="UTF-8" />
+  <title>Contact Me - Dark Mode</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #1e1e1e;
+      color: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 40px 20px;
+    }
+    form {
+      width: 90%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+      font-weight: 600;
+      font-size: 2rem;
+    }
+    .subtext {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 0.9rem;
+      color: #cccccc;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      background-color: #3c3c3c;
+      border: 1px solid #6a0dad;
+      color: #ffffff;
+      border-radius: 4px;
+      padding: 10px;
+      margin-bottom: 20px;
+      font-size: 1rem;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    button {
+      width: 100%;
+      background-color: #6a0dad;
+      color: #ffffff;
+      border: none;
+      border-radius: 4px;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #5b0c9c;
+    }
+  </style>
 </head>
 <body>
-    <div class="logo-container">
-        <img src="static/logo.png" alt="Axislotl Logo">
-    </div>
-    <div class="message">
-        Surfacing soon... just wiggling our little tails
-    </div>
-    <div class="footer">
-        Developed by <a href="https://instagram.com/semmoolenschot" target="_blank">@semmoolenschot</a>
-    </div>
+  <form id="contactForm">
+    <h1>Contact me</h1>
+    <p class="subtext">Have questions about software automation or need assistance with your business and projects? I'm here to help.</p>
+    
+    <!-- Full Name -->
+    <label for="fullName">Full Name:</label>
+    <input type="text" id="fullName" name="fullName" required />
+    
+    <!-- Email Address -->
+    <label for="email">Email Address:</label>
+    <input type="email" id="email" name="email" required />
+    
+    <!-- Instagram Username -->
+    <label for="instagram">Instagram Username:</label>
+    <input type="text" id="instagram" name="instagram" />
+    
+    <!-- Message -->
+    <label for="message">Message:</label>
+    <textarea id="message" name="message" required></textarea>
+    
+    <!-- Submit Button -->
+    <button type="submit">Send</button>
+  </form>
+
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+      const fullName = document.getElementById('fullName').value;
+      const email = document.getElementById('email').value;
+      const instagram = document.getElementById('instagram').value;
+      const message = document.getElementById('message').value;
+
+      try {
+        const response = await fetch('/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fullName, email, instagram, message })
+        });
+
+        if (response.ok) {
+          alert('Your message has been sent!');
+          document.getElementById('contactForm').reset();
+        } else {
+          alert('Error sending the message.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Something went wrong.');
+      }
+    });
+  </script>
 </body>
 </html>
